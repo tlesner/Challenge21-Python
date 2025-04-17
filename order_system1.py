@@ -43,40 +43,40 @@ def place_order(menu):
                 # TODO: Print the menu item number, food category, meal, and price
                 print_menu_line(i, food_category, meals, price)
                 # TODO: Update the menu selection number
-                i =+ 1
+                i += 1
 
         # Ask customer to input menu item number
-    menu_selection = input("Type menu number: ")
+        menu_selection = input("Type menu number: ")
 
         # Update the order list using the update_order function
         # Send the order list, menu selection, and menu items as arguments
-    order = update_order(order, menu_selection, menu_items)
+        order = update_order(order, menu_selection, menu_items)
 
         # Ask the customer if they would like to order anything else
         # Let the customer know if they should type 'n' or 'N' to quit
-    keep_ordering = input("Would you like to keep ordering? (N) to quit: ")
+        keep_ordering = input("Would you like to keep ordering? (N) to quit: ")
 
         # TODO: Write a conditional statement that checks if the customer types
         # 'n' or 'N'
-    if keep_ordering.lower() == 'n':
+        if keep_ordering.lower() == 'n':
 
             # Since the customer decided to stop ordering, thank them for
             # their order
-        print("Thank you for your order.")
+            print("Thank you for your order.")
 
             # TODO: Use a list comprehension to create a list called prices_list,
             # which contains the total prices for each item in the order list:
             # The total price for each item should multiply the price by quantity
-        prices_list =
+            prices_list = [item["Price"] * item["Quantity"] for item in order]
             # TODO: Create an order_total from the prices list using sum()
             # and round the prices to 2 decimal places.
-
+            order_total = round(sum(prices_list), 2)
             # Write a break statement or set the condition to False to exit
             # the ordering loop
-    place_order = False
+            place_order = False
 
     # TODO: Return the order list and the order total
-    
+    return order, order_total
 
 
 def update_order(order, menu_selection, menu_items):
@@ -96,13 +96,18 @@ def update_order(order, menu_selection, menu_items):
     """
     # TODO: Check if the customer's input string can be converted 
     # to an integer and prints an error message if it does not
-
+    if not menu_selection.isdigit():
+        print("invalid choice, please select the correct choice.")
+        return order
     
         # TODO: Convert the menu selection to an integer
-
+    item_number = int(menu_selection)
 
         # TODO: Write a conditional statement that checks if the customer's input is 
         # an item on the menu and prints an error message if it is not
+    if item_number not in menu_items:
+        print("This selection is not on the menu")
+        return order
         
             # Store the item name as a variable
     item_name = menu_items[menu_selection]["Item name"]
@@ -110,17 +115,24 @@ def update_order(order, menu_selection, menu_items):
             # TODO: A prompt (input) to the customer that prints the name of the 
             # menu item to the user and asks the quantity they would like to order.
             # Store the return in a quantity variable
-            
+    amount = input(f"How many {item_name} would you like?")
 
             # TODO: Write a conditional statement that checks if the input quantity 
             # can be converted to an integer, then converts it to an integer. 
             # Have it default to 1 if it does not.
-
+    if not amount.isdigit():
+        quantity = 1
+    else:
+        quantity = int(quantity)
 
             # TODO: Add a dictionary with the item name, price, and quantity to the 
             # order list. Use the following names for the dictionary keys:
             # "Item name", "Price", "Quantity"
-            
+    order.append({
+        'Item name': item_name,
+        'Price': order_total,
+        'Quantity': quantity
+    })
 
     # TODO: Return the updated order
     
