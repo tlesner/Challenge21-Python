@@ -30,7 +30,7 @@ def place_order(menu):
     place_order = True
     # TODO: Create a continuous while loop so customers can order multiple items
     while place_order:
-        print("What would you like to order?")
+        print("What would you like to order? ")
         print_menu_heading()
         i = 1
 
@@ -97,7 +97,7 @@ def update_order(order, menu_selection, menu_items):
     # TODO: Check if the customer's input string can be converted 
     # to an integer and prints an error message if it does not
     if not menu_selection.isdigit():
-        print("invalid choice, please select the correct choice.")
+        print(f"{menu_selection} was not a menu option.")
         return order
     
         # TODO: Convert the menu selection to an integer
@@ -105,22 +105,23 @@ def update_order(order, menu_selection, menu_items):
 
         # TODO: Write a conditional statement that checks if the customer's input is 
         # an item on the menu and prints an error message if it is not
-    if item_number not in menu_items:
-        print("This selection is not on the menu")
+    if item_number not in menu_items.keys():
+        print("was not a menu option.")
         return order
         
             # Store the item name as a variable
-    item_name = menu_items[menu_selection]["Item name"]
+    item_name = menu_items[item_number]["Item name"]
 
             # TODO: A prompt (input) to the customer that prints the name of the 
             # menu item to the user and asks the quantity they would like to order.
             # Store the return in a quantity variable
-    amount = input(f"How many {item_name} would you like?")
+    quantity = input(f"What quantity of {item_name} would you like? \n"
+                     f"(This will default to 1 if number is not entered)\n")
 
             # TODO: Write a conditional statement that checks if the input quantity 
             # can be converted to an integer, then converts it to an integer. 
             # Have it default to 1 if it does not.
-    if not amount.isdigit():
+    if not quantity.isdigit():
         quantity = 1
     else:
         quantity = int(quantity)
@@ -130,12 +131,12 @@ def update_order(order, menu_selection, menu_items):
             # "Item name", "Price", "Quantity"
     order.append({
         'Item name': item_name,
-        'Price': order_total,
+        'Price': menu_items[item_number]["Price"],
         'Quantity': quantity
     })
 
     # TODO: Return the updated order
-    
+    return order
 
 
 def print_itemized_receipt(receipt):
@@ -147,16 +148,18 @@ def print_itemized_receipt(receipt):
                     and quantity ordered.
     """
     # Uncomment the following line if you need to check the structure of the receipt
-    #print(receipt)
+    # print(receipt)
 
     # TODO: Loop through the items in the customer's receipt
-    
+    for item in receipt:
         # TODO: Store the dictionary items ("Item name", "Price", "Quantity") as variables
-        
+        item_name = item["Item name"]
+        price = item["Price"]
+        quantity = item["Quantity"]
 
         # TODO: Print the receipt line using the print_receipt_line function
         # send the item name, price, and quantity as separate arguments
-        
+        print_receipt_line(item_name, price, quantity)
 
 ##################################################
 #  STARTER CODE
